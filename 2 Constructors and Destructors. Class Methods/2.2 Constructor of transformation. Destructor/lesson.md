@@ -32,7 +32,7 @@ private:
 int main() {
     Complex c1;              // конструктор по умолчанию
     Complex c2(0.5);         // конструктор с одним параметром
-    Complex c3(-5.4, 7.8);  // конструктор с двумя параметрами
+    Complex c3(-5.4, 7.8);   // конструктор с двумя параметрами
 
     return 0;
 }
@@ -95,9 +95,9 @@ explicit Complex(double real) : re(real), im(0.0) {}
 После этого:
 
 ```cpp
-Complex c2 = 0.5;           // ошибка: неявный вызов запрещён
-Complex c2(0.5);             // ok: явный вызов
-Complex c2{0.5};             // ok: явный вызов
+Complex c2 = 0.5;        // ошибка: неявный вызов запрещён
+Complex c2(0.5);         // ok: явный вызов
+Complex c2{0.5};         // ok: явный вызов
 ```
 
 Аналогично при вызове методов:
@@ -157,8 +157,13 @@ public:
         delete[] coords;
     }
 
-    unsigned get_total() { return total; }
-    const int* get_coords() { return coords; }
+    unsigned get_total() { 
+        return total; 
+    }
+
+    const int* get_coords() { 
+        return coords; 
+    }
 
     void set_coords(int* cr, unsigned len) {
         for (unsigned i = 0; i < total; ++i) {
@@ -236,7 +241,10 @@ int main() {
 
 ```cpp
 class StringData {
-    enum { max_length = 512 };
+    enum { 
+        max_length = 512 
+    };
+
     char str_data[max_length]{0};
     int length{0};
 
@@ -245,9 +253,11 @@ public:
 
     StringData(const char* data) {
         int i = 0;
+
         for (; i < max_length - 1 && data[i] != '\0'; ++i) {
             str_data[i] = data[i];
         }
+
         str_data[i] = '\0';
         length = i + 1;
     }
