@@ -6,18 +6,19 @@
 
 ```cpp
 class Point2D {
-    int x, y;
-
 public:
-    void set_coords(int a, int b){ 
+    void set_coords(int a, int b) { 
         x = a; 
         y = b; 
     }
 
-    void get_coords(int& a, int& b){ 
+    void get_coords(int& a, int& b) { 
         a = x; 
         b = y; 
     }
+
+private:
+    int x, y;
 };
 ```
 
@@ -40,7 +41,7 @@ Point2D* ptr_pt = new Point2D;
 Класс `Point2D` явно нарушает это правило. Если вывести значения координат созданных объектов:
 
 ```cpp
-int main(){
+int main() {
     Point2D pt;
     Point2D* ptr_pt = new Point2D;
 
@@ -73,20 +74,21 @@ int main(){
 
 ```cpp
 class Point2D {
-    int x, y;
-
 public:
-    Point2D() : x(0), y(0) {} // конструктор объекта
+    Point2D() : x{0}, y{0} {}
 
-    void set_coords(int a, int b){ 
+    void set_coords(int a, int b) { 
         x = a; 
         y = b; 
     }
 
-    void get_coords(int& a, int& b){ 
+    void get_coords(int& a, int& b) { 
         a = x; 
         b = y; 
     }
+
+private:
+    int x, y;
 };
 ```
 
@@ -94,18 +96,18 @@ public:
 
 Обратите внимание, как выполняется инициализация полей `x`, `y` при вызове конструктора. После его определения, но перед телом конструктора, ставится двоеточие и через запятую прописывается инициализация переменных `x` и `y` нулевыми значениями. И это **рекомендуемая практика**. Такая инициализация гарантирует, что в теле конструктора переменные `x`, `y` будут принимать нужные нам начальные значения.
 
-Кроме того, в списке инициализации переменные следует прописывать **в порядке их объявления** в классе. У нас сначала указана переменная `x`, а затем — переменная `y`. Именно поэтому в блоке инициализации в конструкторе переменные идут в том же порядке.
+Кроме того, в списке инициализации переменные следует прописывать **в порядке их объявления** в классе. У нас сначала указана переменная `x`, а затем - переменная `y`. Именно поэтому в блоке инициализации в конструкторе переменные идут в том же порядке.
 
-Наконец, список инициализации — это **единственный способ** инициализации константных переменных непосредственно в конструкторе. Например:
+Наконец, список инициализации - это **единственный способ** инициализации константных переменных непосредственно в конструкторе. Например:
 
 ```cpp
 class Point2D {
+public:
+    Point2D() : max_coord{100}, x(0), y(0) {}
+
+private:
     const unsigned max_coord;
     int x, y;
-
-public:
-    Point2D() : max_coord{100}, x(0), y(0) {} // конструктор объекта
-    // ...
 };
 ```
 
@@ -128,11 +130,12 @@ class Point2D {
 
 ```cpp
 class Point2D {
-    int x{0}, y{0};
-
 public:
     Point2D() = default;
-    Point2D(int a, int b) : x(a), y(b) {}
+    Point2D(int a, int b) : x{a}, y{b} {}
+
+private:
+    int x{0}, y{0};
 };
 ```
 
@@ -142,11 +145,11 @@ public:
 
 ```cpp
 class Point2D {
-    int x, y;
-
 public:
-    Point2D(int a = 0, int b = 0) : x(a), y(b) {} // конструктор объекта
-    // ...
+    Point2D(int a = 0, int b = 0) : x{a}, y{b} {}
+
+private:
+    int x, y;
 };
 ```
 
@@ -168,12 +171,12 @@ Point2D ar_pt[5];
 
 ```cpp
 class Point2D {
-    int x{0}, y{0};
-
 public:
-    Point2D() : x(0), y(0) {}
-    Point2D(int a, int b) : x(a), y(b) {}
-    // ...
+    Point2D() {}
+    Point2D(int a, int b) : x{a}, y{b} {}
+
+private:
+    int x{0}, y{0};
 };
 ```
 
@@ -216,13 +219,14 @@ Point2D pt(1, 2);
 #include <iostream>
 
 class Vector {
-    int x, y;
-
 public:
-    Vector() : x(0), y(0) {}
+    Vector() : x{0}, y{0} {}
+
+private:
+    int x, y;
 };
 
-int main(){
+int main() {
     Vector v;
     std::cout << v.x << " " << v.y << std::endl;
 
@@ -265,15 +269,13 @@ int main(){
 
 class Vector {
 public:
-    int x{-1}, y{-1};
+    Vector() : x{0}, y{0} {}
+    Vector(int a = 0, int b = 0) : x{a}, y{b} {}
 
-public:
-    Vector() : x(0), y(0) {}
-    Vector(int a = 0, int b = 0) : x(a), y(b) {}
+    int x{-1}, y{-1};
 };
 
-int main()
-{
+int main() {
     Vector v, v2(1, 2);
     std::cout << v2.x << " " << v2.y << std::endl;
 
