@@ -155,12 +155,12 @@ public:
         delete[] coords;
     }
 
-    unsigned get_total() { 
-        return total; 
+    unsigned get_total() {
+        return total;
     }
 
-    const int* get_coords() { 
-        return coords; 
+    const int* get_coords() {
+        return coords;
     }
 
     void set_coords(int* cr, unsigned len) {
