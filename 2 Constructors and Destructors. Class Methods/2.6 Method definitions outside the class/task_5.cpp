@@ -1,5 +1,3 @@
-#include <iostream>
-
 class Wallet {
 public:
 	Wallet() = delete;
