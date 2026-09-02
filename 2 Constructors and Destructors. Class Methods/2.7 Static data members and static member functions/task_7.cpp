@@ -1,50 +1,52 @@
-class Point {
+#include <cstddef> 
+
+class Array {
 public:
-	Point() = default;
+	Array() = default;
+	Array(const Array& arr) = delete;
 
-	Point(int x, int y) {
-		set_coords(x, y);
-	};
+	~Array() {
+        delete m_data;
+    }
 
-	static void set_bounds(int left, int right);
-	static void get_bounds(int& left, int& right);
-	void set_coords(int x, int y);
+    void set_data(double* d, size_t length)
+    {
+        delete[] m_data;
+        m_size = length;
+        m_data = new double[m_size];
+
+        for (size_t i = 0; i < m_size; ++i) {
+            m_data[i] = d[i];
+		}
+    }
+
+    double* get_data() { 
+		return m_data; 
+	}
+
+    size_t get_size() { 
+		return m_size; 
+	}
+
+	static Array* create(size_t size);
+	static Array* create(double data[], int size);
 
 private:
-	int m_x{0}, m_y{0};
-	static int MIN_COORD;
-	static int MAX_COORD;
-
-	bool check_coord(int coord) const;
+	double* m_data{nullptr};
+    size_t m_size{0};
 };
 
-int Point::MIN_COORD{0};
-int Point::MAX_COORD{10}; 
+Array* Array::create(size_t size) {
+    Array* temp = new Array();
+    temp->m_data = new double[size]{0};
+    temp->m_size = size;
 
-bool Point::check_coord(int coord) const {
-	return coord <= MAX_COORD && coord >= MIN_COORD;
+    return temp;
 }
 
-void Point::set_bounds(int left, int right) {
-	MIN_COORD = left;
-	MAX_COORD = right;
-}
+Array* Array::create(double data[], int size) {
+    Array* temp = new Array();
+    temp->set_data(data, size);
 
-void Point::get_bounds(int& left, int& right) {
-	left = MIN_COORD;
-	right = MAX_COORD;
-}
-
-void Point::set_coords(int x, int y) {
-	if (check_coord(x) && check_coord(y)) {
-		m_x = x;
-		m_y = y;
-	}
-}
-
-int main() {
-	Point::set_bounds(100, 100);
-	Point pt{-5, 7};
-
-	return 0;
+    return temp;
 }
