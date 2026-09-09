@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cmath>
+
+class Vector3D {
+public:
+    Vector3D(int a = 0, int b = 0, int c = 0) : m_x{a}, m_y{b}, m_z{c} {}
+    
+    void set_data(int a, int b, int c) {
+        m_x = a; 
+        m_y = b; 
+        m_z = c;
+    }
+    
+    int& operator[](int index) {
+        if (index == 0) {
+            return m_x;
+        }
+        
+        if (index == 1) {
+            return m_y;
+        }
+        
+        return m_z;
+    }
+
+    operator double() const {
+        return std::sqrt(m_x*m_x + m_y*m_y + m_z*m_z);
+    }
+
+private:
+    int m_x{0}, m_y{0}, m_z{0};
+};
